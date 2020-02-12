@@ -29,6 +29,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		templateResolver.setApplicationContext(applicationContext);
 		templateResolver.setPrefix("/WEB-INF/templates/");
 		templateResolver.setSuffix(".html");
+	    templateResolver.setTemplateMode("HTML5");
 
 		return templateResolver;
 	}
@@ -48,6 +49,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
 		viewResolver.setTemplateEngine(templateEngine());
+		viewResolver.setOrder(1);
 		viewResolver.setCharacterEncoding("UTF-8");
 		return viewResolver;
 

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title  th:text="${session.accountSession}" th:unless="${session ==null}"> Profile</title>
+
+</head>
+<body>
+
+<h1>Profile</h1>
+<p th:text="${session.accountSession}" > Profile</p>
+
+	<table>
+		<tr>
+			<td> Usuario:</td>
+			<td> Password:</td>
+		</tr>
+		<tr>
+			<td th:text="${account.username}"></td>
+			<td th:text="${account.password}"></td>
+		</tr>
+	</table>
+</body>
+</html>
