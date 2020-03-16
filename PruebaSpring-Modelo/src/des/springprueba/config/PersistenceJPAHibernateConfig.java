@@ -1,8 +1,6 @@
 package des.springprueba.config;
 
 import java.util.Properties;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -15,7 +13,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-//import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -32,9 +29,6 @@ public class PersistenceJPAHibernateConfig {
 	@Autowired
 	private Environment env;
 
-	public PersistenceJPAHibernateConfig() {
-		super();
-	}
 
 	@Bean
 	public DataSource dataSource() {
