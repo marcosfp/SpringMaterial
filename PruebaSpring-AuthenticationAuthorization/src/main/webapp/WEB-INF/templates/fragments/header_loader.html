@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+    <nav sec:authorize="isAnonymous()" th:replace="fragments/header_public"></nav>
+    <nav sec:authorize="hasAuthority('ROL_PROFESOR') && !hasAuthority('ROL_ADMIN')" th:replace="fragments/header_user"></nav>
+    <nav sec:authorize="hasAuthority('ROL_ADMIN')" th:replace="fragments/header_admin"></nav>
+
+
+</body>
+</html>
