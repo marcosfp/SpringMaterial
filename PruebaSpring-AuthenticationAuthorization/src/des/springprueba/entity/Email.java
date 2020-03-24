@@ -11,16 +11,21 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "EMAIL")
 public class Email implements Serializable {
+
+	private static final long serialVersionUID = -7929690108419204859L;
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "ID_EMAIL")
 	private Long idEmail;
 
+	@Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"+"(?:[a-z0-9](?:[a-z0-9-]*"+
+		        "[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",message="La dirección debe tener la forma email@email.com")
 	@Column(name = "DIRECCION_EMAIL")
 	private String direccionEmail;
 

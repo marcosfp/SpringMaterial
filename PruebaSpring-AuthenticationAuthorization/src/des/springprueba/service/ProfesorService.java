@@ -32,4 +32,6 @@ public interface ProfesorService {
 	
 	public Profesor findByUsername(String username);
 	
+	public Profesor modificarProfesor(Profesor profesor);
+	
 }

@@ -16,25 +16,34 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "PROFESOR")
 public class Profesor implements Serializable {
+
+
+	private static final long serialVersionUID = -8668594760203621162L;
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "ID_PROFESOR")
 	private Long idProfesor;
 	
+	@NotNull @Size(min=6, max=15)
 	@Column(name = "NICKNAME")
 	private String username;
 	
+	@NotNull @Size(min=8, max=80)
 	@Column(name = "PASSWORD")
 	private String password;
 
+	@NotNull @Size(min=4, max=15)
 	@Column(name = "NOMBRE")
 	private String nombreProfesor;
 
+	@NotNull @Size(min=4, max=15)
 	@Column(name = "APELLIDOS")
 	private String apellidosProfesor;
 

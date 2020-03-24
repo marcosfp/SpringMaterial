@@ -16,7 +16,7 @@ import des.springprueba.entity.Profesor;
 
 @Transactional
 @Service
-public class PorfesorServiceImpl implements ProfesorService {
+public class ProfesorServiceImpl implements ProfesorService {
 
 	@Autowired
 	private ProfesorDao profesorDao;
@@ -101,6 +101,15 @@ public class PorfesorServiceImpl implements ProfesorService {
 	public Profesor findByUsername(String username) {
 
 		return profesorDao.findByUsername(username);
+	}
+
+	@Override
+	public Profesor modificarProfesor(Profesor profesor) {
+
+		profesor.setPassword(bCryptPasswordEncoder.encode(profesor.getPassword()));
+		profesorDao.update(profesor);
+		
+		return null;
 	}
 
 }

@@ -37,28 +37,27 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		templateResolver.setSuffix(".html");
 		templateResolver.setCharacterEncoding("UTF-8");
 		templateResolver.setTemplateMode("HTML5");
-		
+		templateResolver.setCacheable(false);
+		templateResolver.setCacheTTLMs(0L);
 
 		return templateResolver;
 	}
 
-	/*Permite añadir anotacones de Spring security a los ficheros html*/
+	/* Permite añadir anotacones de Spring security a los ficheros html */
 	@Bean
 	public SpringSecurityDialect securityDialect() {
-	    return new SpringSecurityDialect();
+		return new SpringSecurityDialect();
 	}
-	
-	
+
 	/* Establecemos Thymeleaf como motor de plantillas */
 	@Bean
 	public SpringTemplateEngine templateEngine() {
 
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-		templateEngine.setTemplateResolver(templateResolver());		
+		templateEngine.setTemplateResolver(templateResolver());
 		templateEngine.setEnableSpringELCompiler(true);
-		
-    	templateEngine.addDialect(securityDialect());
 
+		templateEngine.addDialect(securityDialect());
 
 		return templateEngine;
 	}
@@ -73,17 +72,22 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
 		viewResolver.setTemplateEngine(templateEngine());
 		viewResolver.setCharacterEncoding("UTF-8");
+		viewResolver.setCache(false);
 		return viewResolver;
 
 	}
 
 	@Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry
-          .addResourceHandler("/style/**")
-          .addResourceLocations("/WEB-INF/style/")
-          .setCachePeriod(3600)
-          .resourceChain(true)
-          .addResolver(new PathResourceResolver());
-    }
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler(
+				"/css/**",
+				"/js/**",
+				"/images/**"
+				).addResourceLocations(
+						"/WEB-INF/css/",
+						"/WEB-INF/js/",
+						"/WEB-INF/images/")
+				.setCachePeriod(3600);
+//				.resourceChain(true).addResolver(new PathResourceResolver());
+	}
 }

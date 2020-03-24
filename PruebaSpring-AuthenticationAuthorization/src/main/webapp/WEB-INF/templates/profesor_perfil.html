@@ -7,17 +7,8 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<link rel="stylesheet" type="text/css" th:href="@{/style/style.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
-	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
-	crossorigin="anonymous">
 </head>
 <body>
 	<nav th:replace="fragments/header_loader"></nav>
@@ -36,7 +27,17 @@
 				<div>
 					<b>Apellidos:</b> <span th:text="${profesor.apellidosProfesor}"></span>
 				</div>
+				<div>
+					<b>Nombre de Usuario:</b> <span th:text="${profesor.username}"></span>
+				</div>
 
+				<div th:if="${propietario}">
+
+					<a
+						th:href="@{/profesor/perfil/actualizar/{idProfesor}(idProfesor=${profesor.idProfesor})}"
+						class="btn btn-info">Editar Perfil <i class="fas fa-user-edit"></i>
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -58,20 +59,22 @@
 						<tr th:each="email : ${profesor.emails}">
 							<td><span th:text="${email.direccionEmail}"> email </span></td>
 
-							<td  th:if="${propietario || #authorization.expression('hasAuthority(''ROL_ADMIN'')')}">
+							<td
+								th:if="${propietario || #authorization.expression('hasAuthority(''ROL_ADMIN'')')}">
 								<a
-									th:href="@{/profesor/eliminar_email/{idProfesor}/{idEmail}(idProfesor=${profesor.idProfesor},idEmail=${email.idEmail})}"
-									class="btn btn-danger"><i class="fas fa-trash"></i></a>
-								</td>
+								th:href="@{/profesor/eliminar_email/{idProfesor}/{idEmail}(idProfesor=${profesor.idProfesor},idEmail=${email.idEmail})}"
+								class="btn btn-danger"><i class="fas fa-trash"></i></a>
+							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
 
-		<div class="email" th:if="${propietario || #authorization.expression('hasAuthority(''ROL_ADMIN'')')}">
+		<div class="email"
+			th:if="${propietario || #authorization.expression('hasAuthority(''ROL_ADMIN'')')}">
 			<div class="card">
-				<div class="container" >
+				<div class="container">
 					<form
 						th:action="@{/profesor/anadir_email/{id}(id=${profesor.idProfesor})}"
 						method="post">

@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                             "/","/index",
                             "/js/**",
                             "/css/**",
-                            "/img/**",
+                            "/images/**",
                             "/signup",
                             "/createUser",
                             "/webjars/**").permitAll()

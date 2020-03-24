@@ -4,11 +4,14 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -63,6 +66,43 @@ public class ProfesorController {
 		mav.addObject("profesor", profesor);
 		mav.setViewName("profesor_perfil");
 		return mav;
+	}
+	// TRABAAJAR AQUI
+	@GetMapping("/perfil/actualizar/{id}")
+	public ModelAndView mostrarActualizarPerfilProfesor(@PathVariable("id") long idProfesor,HttpServletRequest request) {
+
+		System.out.println("\n\n EEEEEEEEEEEEEEEEEEEEEEEEEEEOOOOOOOOOOOO \n\n");
+		Profesor profesor = profesorService.obtenerProfesor(idProfesor);
+
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("profesor", profesor);
+		mav.setViewName("profesor_perfil_actualizar");
+		return mav;
+	}
+	
+	@PostMapping("/perfil/actualizar/{id}")
+	public String actualizarPerfilProfesor(@PathVariable("id") long idProfesor,@Valid Profesor profesorFormulario,BindingResult bindingResult, HttpServletRequest request) {
+
+		ModelAndView mav = new ModelAndView();
+
+		long idUsuarioSession= (long) request.getSession().getAttribute("idUsuario");
+		if (idUsuarioSession != idProfesor) {
+			return "redirect:/index";
+		}
+		
+		if (bindingResult.hasErrors()) {
+			return "profesor_perfil_actualizar";
+		}
+		
+		Profesor profesorBD = profesorService.obtenerProfesor(idProfesor);
+		profesorBD.setUsername(profesorFormulario.getUsername());
+		profesorBD.setNombreProfesor(profesorFormulario.getNombreProfesor());
+		profesorBD.setApellidosProfesor(profesorFormulario.getApellidosProfesor());
+		profesorBD.setPassword(profesorFormulario.getPassword());
+		
+		profesorService.modificarProfesor(profesorBD);
+		
+		return "redirect:/profesor/perfil/" + idUsuarioSession;
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/anadir_email/{id}")
