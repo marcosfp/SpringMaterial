@@ -50,10 +50,10 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
         
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (final GrantedAuthority grantedAuthority : authorities) {
-            if (grantedAuthority.getAuthority().equals("profesor")) {
+            if (grantedAuthority.getAuthority().equals("ROL_PROFESOR")) {
                 isUser = true;
                 break;
-            } else if (grantedAuthority.getAuthority().equals("administrador")) {
+            } else if (grantedAuthority.getAuthority().equals("ROL_ADMIN")) {
                 isAdmin = true;
                 break;
             }
@@ -61,8 +61,10 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
         
         if (isUser) {
         	session.setAttribute("rol","profesor" );
-        }else {
+        }else if(isAdmin) {
         	session.setAttribute("rol","admin" );
+        } else {
+            throw new IllegalStateException();
         }
         handle(request, response, authentication);
         clearAuthenticationAttributes(request);
