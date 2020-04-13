@@ -46,6 +46,7 @@
 		<javax.api.anotacion.validation.version>3.0.0</javax.api.anotacion.validation.version>
 		<javax.api.validation.version>2.0.0.Final</javax.api.validation.version>
 		<javax.glassfish.validation.version>2.2.6</javax.glassfish.validation.version>
+     <jaction.xml.version>2.10.2</jaction.xml.version>
 
 	</properties>
 
@@ -168,7 +169,24 @@
 			<artifactId>hibernate-validator-annotation-processor</artifactId>
 			<version>6.0.2.Final</version>
 		</dependency>
-
+      <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jaction.xml.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jaction.xml.version}</version>
+        </dependency>
+        <dependency>
+    		<groupId>org.modelmapper</groupId>
+    		<artifactId>modelmapper</artifactId>
+    		<version>2.3.5</version>
+		</dependency>
+        
+        
+        
 	</dependencies>
 
 </project>

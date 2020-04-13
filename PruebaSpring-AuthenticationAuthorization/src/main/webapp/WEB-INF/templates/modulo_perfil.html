@@ -1,12 +1,19 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Perfil</title>
-<!-- Required meta tags -->
-<meta http-equiv=”Content-Type” content=”text/html; charset=UTF-8″ />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Perfil</title>
+	<!-- Required meta tags -->
+	<meta http-equiv=”Content-Type” content=”text/html; charset=UTF-8″ />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" th:href="@{/css/search.css}">
 
+	<script th:src="@{/js/jquery-3.5.0.js}"></script>
+	<script th:src="@{/js/jquery-ui.min.js}"></script>
+	<script th:src="@{/js/typeahead.bundle.min.js}"></script>
+	
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 </head>
 <body>
 	<nav th:replace="fragments/header_loader"></nav>
@@ -16,6 +23,8 @@
 		<div class="card">
 			<div class="card-body">
 
+
+				<input type="hidden" id="idModulo" th:value="${modulo.idModulo}">
 				<h1>
 					 Profesores que imparten 
 					<span th:text="${modulo.nombreModulo}"></span>
@@ -27,13 +36,16 @@
 							<th scope="col">Nombre</th>
 							<th scope="col">Apellidos</th>
 							<th scope="col">Perfil</th>
+							<th scope="col" sec:authorize="hasAuthority('ROL_ADMIN')"><i class="far fa-trash-alt"></i></th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="bodytabla">
 						<tr th:if="${modulo.profesores.empty}">
 							<td colspan="2">No existen profesores en el sistema</td>
 						</tr>
 						<tr th:each="profesor : ${modulo.profesores}">
+							<td style="display:none;" id="idTd"><span id="idSpan" th:text="${profesor.idProfesor}">
+									</span></td>
 							<td><span th:text="${profesor.nombreProfesor}">
 									Nombre </span></td>
 							<td><span th:text="${profesor.apellidosProfesor}">
@@ -41,8 +53,17 @@
 							<td><a
 								th:href="@{/profesor/perfil/{id}(id=${profesor.idProfesor})}"
 								class="btn btn-primary"><i class="fas fa-user"></i></a></td>
+							<td sec:authorize="hasAuthority('ROL_ADMIN')">
+								<a class="btn btn-danger borrar"><i class="fas fa-user-times"></i></a></td>
 						</tr>
 					</tbody>
+					
+			</table>
+					<input class="typeahead tt-input" sec:authorize="hasAuthority('ROL_ADMIN')" type="text" id="buscarmodulo" name="buscarmodulo" placeholder="Busca el profesor" autocomplete="off" spellcheck="false" dir="auto" style="position: relative; vertical-align: top; background-color: transparent;">
+					
+					<div id="aviso"></div>
+					<script  th:src="@{/js/search.js}"></script>
+					
 			</div>
 		</div>
 	</div>

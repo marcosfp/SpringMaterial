@@ -2,6 +2,7 @@ package des.springprueba.service;
 
 import java.util.List;
 
+import des.springprueba.dto.ProfesorDto;
 import des.springprueba.entity.Email;
 import des.springprueba.entity.Modulo;
 import des.springprueba.entity.Profesor;
@@ -18,7 +19,7 @@ public interface ProfesorService {
 	
 	public void eliminarPorfesor (long idProfesor);
 	
-	public List<Profesor> listarProfesorPorNombreYApellidos( String nombreapellidos);
+	public List<ProfesorDto> listarProfesorPorNombreYApellidos( String nombreapellidos);
 	
 	public List<Modulo> listarModulosNombre(String nombreModulo);
 	

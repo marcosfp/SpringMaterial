@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import des.springprueba.dto.ProfesorDto;
 import des.springprueba.entity.Email;
+import des.springprueba.entity.Modulo;
 import des.springprueba.entity.Profesor;
+import des.springprueba.service.ModuloService;
 import des.springprueba.service.ProfesorService;
 
 @Controller
@@ -26,6 +30,9 @@ public class ProfesorController {
 
 	@Autowired
 	ProfesorService profesorService;
+
+	@Autowired
+	ModuloService moduloService;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/list")
 	public ModelAndView listarPorfesores() {
@@ -42,66 +49,68 @@ public class ProfesorController {
 //	@Secured("ROLE_ADMIN")
 	@RequestMapping(method = RequestMethod.GET, value = "/myprofile")
 	public String perfilPersonal(HttpServletRequest request) {
-		
-        HttpSession session = request.getSession();
 
-        if (session != null && session.getAttribute("idUsuario") != null)
-        	return "redirect:/profesor/perfil/" + session.getAttribute("idUsuario");
-        else 
-        	return"redirect:/";
+		HttpSession session = request.getSession();
+
+		if (session != null && session.getAttribute("idUsuario") != null)
+			return "redirect:/profesor/perfil/" + session.getAttribute("idUsuario");
+		else
+			return "redirect:/";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/perfil/{id}")
-	public ModelAndView perfilProfesor(@PathVariable("id") long idProfesor,HttpServletRequest request) {
+	public ModelAndView perfilProfesor(@PathVariable("id") long idProfesor, HttpServletRequest request) {
 
 		ModelAndView mav = new ModelAndView();
 
 		Profesor profesor = profesorService.obtenerProfesor(idProfesor);
 
-		long idSession= (long) request.getSession().getAttribute("idUsuario");
-		
-		Boolean propietario= idSession == idProfesor;
-		
+		long idSession = (long) request.getSession().getAttribute("idUsuario");
+
+		Boolean propietario = idSession == idProfesor;
+
 		mav.addObject("propietario", propietario);
 		mav.addObject("profesor", profesor);
 		mav.setViewName("profesor_perfil");
 		return mav;
 	}
-	// TRABAAJAR AQUI
+
 	@GetMapping("/perfil/actualizar/{id}")
-	public ModelAndView mostrarActualizarPerfilProfesor(@PathVariable("id") long idProfesor,HttpServletRequest request) {
+	public ModelAndView mostrarActualizarPerfilProfesor(@PathVariable("id") long idProfesor,
+			HttpServletRequest request) {
 
-		System.out.println("\n\n EEEEEEEEEEEEEEEEEEEEEEEEEEEOOOOOOOOOOOO \n\n");
 		Profesor profesor = profesorService.obtenerProfesor(idProfesor);
-
+		List<Modulo> lModulos = moduloService.listarModulos();
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("profesor", profesor);
+		mav.addObject("modulos", lModulos);
 		mav.setViewName("profesor_perfil_actualizar");
 		return mav;
 	}
-	
+
 	@PostMapping("/perfil/actualizar/{id}")
-	public String actualizarPerfilProfesor(@PathVariable("id") long idProfesor,@Valid Profesor profesorFormulario,BindingResult bindingResult, HttpServletRequest request) {
+	public String actualizarPerfilProfesor(@PathVariable("id") long idProfesor, @Valid Profesor profesorFormulario,
+			BindingResult bindingResult, HttpServletRequest request) {
 
 		ModelAndView mav = new ModelAndView();
 
-		long idUsuarioSession= (long) request.getSession().getAttribute("idUsuario");
+		long idUsuarioSession = (long) request.getSession().getAttribute("idUsuario");
 		if (idUsuarioSession != idProfesor) {
 			return "redirect:/index";
 		}
-		
+
 		if (bindingResult.hasErrors()) {
 			return "profesor_perfil_actualizar";
 		}
-		
+
 		Profesor profesorBD = profesorService.obtenerProfesor(idProfesor);
 		profesorBD.setUsername(profesorFormulario.getUsername());
 		profesorBD.setNombreProfesor(profesorFormulario.getNombreProfesor());
 		profesorBD.setApellidosProfesor(profesorFormulario.getApellidosProfesor());
 		profesorBD.setPassword(profesorFormulario.getPassword());
-		
+
 		profesorService.modificarProfesor(profesorBD);
-		
+
 		return "redirect:/profesor/perfil/" + idUsuarioSession;
 	}
 
@@ -127,5 +136,25 @@ public class ProfesorController {
 		profesorService.eliminarEmail(idProfesor, email);
 
 		return "redirect:/profesor/perfil/" + idProfesor;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/search/{nombreProfesor}")
+	public @ResponseBody List<ProfesorDto> buscarPorfesorePorNombre(
+			@PathVariable("nombreProfesor") String nombreProfesor) {
+
+		System.out.println("QUERY___" + nombreProfesor);
+		List<ProfesorDto> LProfesores = profesorService.listarProfesorPorNombreYApellidos(nombreProfesor);
+
+		return LProfesores;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value =  "/search{nombreProfesor}" )
+	public @ResponseBody List<ProfesorDto> buscarPorfesorePorNombre2(
+			@PathVariable("nombreProfesor") String nombreProfesor) {
+
+		System.out.println("QUERY___" + nombreProfesor);
+		List<ProfesorDto> LProfesores = profesorService.listarProfesorPorNombreYApellidos(nombreProfesor);
+
+		return LProfesores;
 	}
 }

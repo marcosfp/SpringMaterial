@@ -7,15 +7,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -47,6 +38,10 @@ public class Profesor implements Serializable {
 	@Column(name = "APELLIDOS")
 	private String apellidosProfesor;
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "profesor", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Email> emails = new HashSet<>();
 
@@ -56,7 +51,7 @@ public class Profesor implements Serializable {
 	inverseJoinColumns = @JoinColumn(name = "ID_MODULO"))
 	private Set<Modulo> modulos = new HashSet<>();
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER,cascade=CascadeType.MERGE)
 	@JoinTable(name = "PROFESOR_ROL", 
 	joinColumns = @JoinColumn(name = "ID_PROFESOR"),
 	inverseJoinColumns = @JoinColumn(name = "ID_ROL"))
@@ -143,6 +138,49 @@ public class Profesor implements Serializable {
 				+ emails + ", modulos=" + modulos + ", roles=" + roles + "]";
 	}
 
-	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((apellidosProfesor == null) ? 0 : apellidosProfesor.hashCode());
+		result = prime * result + ((nombreProfesor == null) ? 0 : nombreProfesor.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Profesor other = (Profesor) obj;
+		if (apellidosProfesor == null) {
+			if (other.apellidosProfesor != null)
+				return false;
+		} else if (!apellidosProfesor.equals(other.apellidosProfesor))
+			return false;
+		if (nombreProfesor == null) {
+			if (other.nombreProfesor != null)
+				return false;
+		} else if (!nombreProfesor.equals(other.nombreProfesor))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
+	}
+
+
 	
 }

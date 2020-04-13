@@ -5,15 +5,17 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Query;
+import org.modelmapper.ModelMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import des.springprueba.dto.ProfesorDto;
 import des.springprueba.entity.Email;
 import des.springprueba.entity.Profesor;
 import des.springprueba.entity.Rol;
+import java.util.stream.Collectors;
 
 @Repository
 @Component("ProfesorDao")
@@ -23,6 +25,9 @@ public class ProfesorDaoImpl extends GenericDaoImpl<Profesor> implements Profeso
     @Autowired
     private RolRepository rolRepository;
 	
+    
+    @Autowired
+    private ModelMapper modelMapper;
     
 	public Profesor create (Profesor profesor) {
 		
@@ -50,17 +55,22 @@ public class ProfesorDaoImpl extends GenericDaoImpl<Profesor> implements Profeso
 	}
 
 	@Override
-	public List<Profesor> buscarPorfesorPorNombreYApellidos(String nombreyapellidos) {
+	public List<ProfesorDto> buscarPorfesorPorNombreYApellidos(String nombreyapellidos) {
 
 		String nym = "%" + nombreyapellidos + "%";
-		Query query = this.em.createQuery("select u FROM Profesor u where concat (u.nombre,' 'u apellidos) like  :nym");
+		Query query = this.em.createQuery("FROM Profesor u where concat (u.nombreProfesor,' ',u.apellidosProfesor) like  :nym");
 		query.setParameter("nym", nym);
 		List<Profesor> lProfesor = query.getResultList();
 
-		if (lProfesor != null) {
-			return lProfesor;
+		if (lProfesor == null) {
+			return null;
 		}
-		return null;
+		
+		return lProfesor.stream()
+		          .map(this::convertToPorfesorDto)
+		          .collect(Collectors.toList());
+		
+		
 	}
 
 	@Override
@@ -95,4 +105,11 @@ public class ProfesorDaoImpl extends GenericDaoImpl<Profesor> implements Profeso
 		return null;
 	}
 
+	private ProfesorDto convertToPorfesorDto(Profesor profesor) {
+		ProfesorDto profesotDto = modelMapper.map(profesor, ProfesorDto.class);
+        return profesotDto;
+    }
+    
+	
+	
 }

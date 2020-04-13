@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import des.springprueba.dao.EmailDao;
 import des.springprueba.dao.ModuloDao;
 import des.springprueba.dao.ProfesorDao;
+import des.springprueba.dto.ProfesorDto;
 import des.springprueba.entity.Email;
 import des.springprueba.entity.Modulo;
 import des.springprueba.entity.Profesor;
@@ -44,7 +45,7 @@ public class ProfesorServiceImpl implements ProfesorService {
 	}
 
 	@Override
-	public List<Profesor> listarProfesorPorNombreYApellidos(String nombreyapellidos) {
+	public List<ProfesorDto> listarProfesorPorNombreYApellidos(String nombreyapellidos) {
 
 		return profesorDao.buscarPorfesorPorNombreYApellidos(nombreyapellidos);
 	}

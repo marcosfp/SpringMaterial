@@ -2,9 +2,11 @@ package des.springprueba.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,7 +19,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "MODULO")
-public class Modulo {
+public class Modulo  implements Serializable {
+
+	private static final long serialVersionUID = 6261463148117483407L;
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -27,7 +31,10 @@ public class Modulo {
 	@Column(name = "NOMBRE_MODULO")
 	private String nombreModulo;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER,cascade = {
+	        CascadeType.PERSIST,
+	        CascadeType.MERGE
+	    })
 	@JoinTable(name = "PROFESOR_MODULO", joinColumns = @JoinColumn(name = "ID_MODULO"), inverseJoinColumns = @JoinColumn(name = "ID_PROFESOR"))
 	private Set<Profesor> profesores = new HashSet<>();
 
@@ -55,4 +62,44 @@ public class Modulo {
 		this.nombreModulo = nombreModulo;
 	}
 
+	public void addProfesor(Profesor profesor) {
+		this.profesores.add(profesor);
+		profesor.getModulos().add(this);
+	}
+	
+	public void deleteProfesor(Profesor profesor) {
+		this.profesores.remove(profesor) ;
+		profesor.getEmails().remove(this);
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nombreModulo == null) ? 0 : nombreModulo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Modulo other = (Modulo) obj;
+		if (nombreModulo == null) {
+			if (other.nombreModulo != null)
+				return false;
+		} else if (!nombreModulo.equals(other.nombreModulo))
+			return false;
+		return true;
+	}
+
+	
 }

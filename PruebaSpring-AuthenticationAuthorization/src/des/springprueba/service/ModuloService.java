@@ -12,4 +12,8 @@ public interface ModuloService {
 
 	public Modulo obtenerModulo(long idModulo);
 	
+	public Modulo agregarProfesor(long idModulo, long idProfesor);
+	
+	public Modulo eliminarProfesor(long idModulo, long idProfesor);
+
 }

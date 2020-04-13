@@ -2,6 +2,7 @@ package des.springprueba.dao;
 
 import java.util.List;
 
+import des.springprueba.dto.ProfesorDto;
 import des.springprueba.entity.Email;
 import des.springprueba.entity.Profesor;
 
@@ -11,7 +12,7 @@ public interface ProfesorDao extends GenericDao<Profesor>{
 	
 	public Profesor buscarPorEmail (String email);
 	
-	public List<Profesor> buscarPorfesorPorNombreYApellidos(String nombreyapellidos);
+	public List<ProfesorDto> buscarPorfesorPorNombreYApellidos(String nombreyapellidos);
 	
 	public List<Profesor> listarPorfesores();
 	
