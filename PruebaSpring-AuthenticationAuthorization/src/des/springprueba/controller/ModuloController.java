@@ -34,18 +34,18 @@ public class ModuloController {
 		return mav;
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/matricularprofesor/{id}")
-	public @ResponseBody ResponseEntity agregarProfesor(@PathVariable("id") long idModulo,@RequestBody ProfesorDto profesorDto) {
+@RequestMapping(method = RequestMethod.POST, value = "/matricularprofesor/{id}")
+public @ResponseBody ResponseEntity matricularProfesor(@PathVariable("id") long idModulo,@RequestBody ProfesorDto profesorDto) {
 
-		Modulo modulo =moduloService.agregarProfesor(idModulo, profesorDto.getIdProfesor());
-		
-		if (modulo ==null) {return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
-		
-		return new ResponseEntity(HttpStatus.OK);
-	}
+	Modulo modulo =moduloService.agregarProfesor(idModulo, profesorDto.getIdProfesor());
+	
+	if (modulo ==null) {return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
+	
+	return new ResponseEntity(HttpStatus.OK);
+}
 	
 @RequestMapping(method = RequestMethod.DELETE, value = "/desmatricularProfesor/{idModulo}/{idProfesor}")
-public @ResponseBody ResponseEntity eliminarProfesor(@PathVariable("idModulo") long idModulo,
+public @ResponseBody ResponseEntity desmatricularProfesor(@PathVariable("idModulo") long idModulo,
 		@PathVariable("idProfesor") long idProfesor) {
 
 	Modulo modulo = moduloService.eliminarProfesor(idModulo, idProfesor);
