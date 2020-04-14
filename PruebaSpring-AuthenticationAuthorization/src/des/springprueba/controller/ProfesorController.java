@@ -141,20 +141,10 @@ public class ProfesorController {
 	@RequestMapping(method = RequestMethod.GET, value = "/search/{nombreProfesor}")
 	public @ResponseBody List<ProfesorDto> buscarPorfesorePorNombre(
 			@PathVariable("nombreProfesor") String nombreProfesor) {
-
-		System.out.println("QUERY___" + nombreProfesor);
+	
 		List<ProfesorDto> LProfesores = profesorService.listarProfesorPorNombreYApellidos(nombreProfesor);
-
+	
 		return LProfesores;
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value =  "/search{nombreProfesor}" )
-	public @ResponseBody List<ProfesorDto> buscarPorfesorePorNombre2(
-			@PathVariable("nombreProfesor") String nombreProfesor) {
-
-		System.out.println("QUERY___" + nombreProfesor);
-		List<ProfesorDto> LProfesores = profesorService.listarProfesorPorNombreYApellidos(nombreProfesor);
-
-		return LProfesores;
-	}
 }

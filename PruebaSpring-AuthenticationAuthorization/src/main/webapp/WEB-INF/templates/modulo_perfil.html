@@ -39,30 +39,30 @@
 							<th scope="col" sec:authorize="hasAuthority('ROL_ADMIN')"><i class="far fa-trash-alt"></i></th>
 						</tr>
 					</thead>
-					<tbody id="bodytabla">
-						<tr th:if="${modulo.profesores.empty}">
-							<td colspan="2">No existen profesores en el sistema</td>
-						</tr>
-						<tr th:each="profesor : ${modulo.profesores}">
-							<td style="display:none;" id="idTd"><span id="idSpan" th:text="${profesor.idProfesor}">
-									</span></td>
-							<td><span th:text="${profesor.nombreProfesor}">
-									Nombre </span></td>
-							<td><span th:text="${profesor.apellidosProfesor}">
-									Apellido </span></td>
-							<td><a
-								th:href="@{/profesor/perfil/{id}(id=${profesor.idProfesor})}"
-								class="btn btn-primary"><i class="fas fa-user"></i></a></td>
-							<td sec:authorize="hasAuthority('ROL_ADMIN')">
-								<a class="btn btn-danger borrar"><i class="fas fa-user-times"></i></a></td>
-						</tr>
-					</tbody>
+				<tbody id="bodytabla">
+					<tr th:if="${modulo.profesores.empty}">
+						<td colspan="2">No existen profesores en el sistema</td>
+					</tr>
+					<tr th:each="profesor : ${modulo.profesores}">
+						<td style="display:none;" id="idTd"><span id="idSpan" th:text="${profesor.idProfesor}">
+								</span></td>
+						<td><span th:text="${profesor.nombreProfesor}">
+								Nombre </span></td>
+						<td><span th:text="${profesor.apellidosProfesor}">
+								Apellido </span></td>
+						<td><a
+							th:href="@{/profesor/perfil/{id}(id=${profesor.idProfesor})}"
+							class="btn btn-primary"><i class="fas fa-user"></i></a></td>
+						<td sec:authorize="hasAuthority('ROL_ADMIN')">
+							<a class="btn btn-danger borrar"><i class="fas fa-user-times"></i></a></td>
+					</tr>
+				</tbody>
 					
 			</table>
-					<input class="typeahead tt-input" sec:authorize="hasAuthority('ROL_ADMIN')" type="text" id="buscarmodulo" name="buscarmodulo" placeholder="Busca el profesor" autocomplete="off" spellcheck="false" dir="auto" style="position: relative; vertical-align: top; background-color: transparent;">
-					
-					<div id="aviso"></div>
-					<script  th:src="@{/js/search.js}"></script>
+	<input class="typeahead tt-input" sec:authorize="hasAuthority('ROL_ADMIN')" type="text" id="buscarmodulo" name="buscarmodulo" placeholder="Busca el profesor" autocomplete="off" spellcheck="false" dir="auto" style="position: relative; vertical-align: top; background-color: transparent;">
+	
+	<div id="aviso"></div>
+	<script  th:src="@{/js/search.js}"></script>
 					
 			</div>
 		</div>

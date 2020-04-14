@@ -34,7 +34,7 @@ public class ModuloController {
 		return mav;
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/agregarprofesor/{id}")
+	@RequestMapping(method = RequestMethod.POST, value = "/matricularprofesor/{id}")
 	public @ResponseBody ResponseEntity agregarProfesor(@PathVariable("id") long idModulo,@RequestBody ProfesorDto profesorDto) {
 
 		Modulo modulo =moduloService.agregarProfesor(idModulo, profesorDto.getIdProfesor());
@@ -44,14 +44,16 @@ public class ModuloController {
 		return new ResponseEntity(HttpStatus.OK);
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/eliminarprofesor/{idModulo}/{idProfesor}")
-	public @ResponseBody ResponseEntity eliminarProfesor(@PathVariable("idModulo") long idModulo, @PathVariable("idProfesor") long idProfesor) {
+@RequestMapping(method = RequestMethod.DELETE, value = "/desmatricularProfesor/{idModulo}/{idProfesor}")
+public @ResponseBody ResponseEntity eliminarProfesor(@PathVariable("idModulo") long idModulo,
+		@PathVariable("idProfesor") long idProfesor) {
 
-		Modulo modulo =moduloService.eliminarProfesor(idModulo, idProfesor);
-		
-		if (modulo ==null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		
-		return new ResponseEntity(HttpStatus.OK);
-	}
+	Modulo modulo = moduloService.eliminarProfesor(idModulo, idProfesor);
+
+	if (modulo == null)
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+	return new ResponseEntity(HttpStatus.OK);
+}
 
 }

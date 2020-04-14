@@ -69,8 +69,6 @@ public class ProfesorDaoImpl extends GenericDaoImpl<Profesor> implements Profeso
 		return lProfesor.stream()
 		          .map(this::convertToPorfesorDto)
 		          .collect(Collectors.toList());
-		
-		
 	}
 
 	@Override
