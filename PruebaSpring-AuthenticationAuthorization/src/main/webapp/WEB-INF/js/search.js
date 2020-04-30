@@ -25,7 +25,7 @@ function desmatricularProfesor() {
 	var obj = $(this);
 	var idProfesor = $(this).closest("tr") // Finds the closest row <tr>
 	.find("#idTd") // Gets a descendent with class="nr"
-	.text();
+	.text();rec
 
 	var idModulo = document.getElementById('idModulo').value;
 

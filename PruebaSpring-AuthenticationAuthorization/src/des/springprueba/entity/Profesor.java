@@ -37,6 +37,9 @@ public class Profesor implements Serializable {
 	@NotNull @Size(min=4, max=15)
 	@Column(name = "APELLIDOS")
 	private String apellidosProfesor;
+	
+	@OneToOne(mappedBy="profesor" ,fetch = FetchType.LAZY,optional= true)
+	private Imagen imagen;
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -76,6 +79,14 @@ public class Profesor implements Serializable {
 
 	public Set<Email> getEmails() {
 		return emails;
+	}
+
+	public Imagen getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(Imagen imagen) {
+		this.imagen = imagen;
 	}
 
 	public boolean addEmails(Email email) {

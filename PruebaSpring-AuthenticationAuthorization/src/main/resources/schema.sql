@@ -2,12 +2,23 @@ drop database if exists springprueba_springsecurity;
 create database springprueba_springsecurity;
 use springprueba_springsecurity;
 
+drop table if exists IMAGEN;
 drop table if exists PROFESOR_MODULO;
 drop table if exists MODULO;
 drop table if exists EMAIL;
 drop table if exists PROFESOR;
 drop table if exists ROL;
 drop table if exists PROFESOR_ROL;
+
+
+CREATE TABLE IMAGEN
+(
+   ID_IMAGEN INT NOT NULL AUTO_INCREMENT,
+   NOMBRE VARCHAR (40) NOT NULL,
+   IMAGEN LONGBLOB NOT NULL,
+   PRIMARY KEY (ID_IMAGEN)
+);
+
 
 CREATE TABLE PROFESOR
 (

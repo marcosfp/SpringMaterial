@@ -1,0 +1,9 @@
+#server:
+#    port:  9000
+#    application:
+#        name: demoservice
+#spring:
+#     servlet:
+#          multipart:
+#               max-file-size: 128KB
+#               max-request-size: 128KB

@@ -59,7 +59,9 @@
 				</tbody>
 					
 			</table>
-	<input class="typeahead tt-input" sec:authorize="hasAuthority('ROL_ADMIN')" type="text" id="buscarmodulo" name="buscarmodulo" placeholder="Busca el profesor" autocomplete="off" spellcheck="false" dir="auto" style="position: relative; vertical-align: top; background-color: transparent;">
+	<input class="typeahead tt-input" sec:authorize="hasAuthority('ROL_ADMIN')" type="text" id="buscarmodulo" 
+	name="buscarmodulo" placeholder="Busca el profesor" autocomplete="off" spellcheck="false" 
+	dir="auto" style="position: relative; vertical-align: top; background-color: transparent;">
 	
 	<div id="aviso"></div>
 	<script  th:src="@{/js/search.js}"></script>
