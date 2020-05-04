@@ -25,7 +25,7 @@ function desmatricularProfesor() {
 	var obj = $(this);
 	var idProfesor = $(this).closest("tr") // Finds the closest row <tr>
 	.find("#idTd") // Gets a descendent with class="nr"
-	.text();rec
+	.text();
 
 	var idModulo = document.getElementById('idModulo').value;
 
@@ -104,7 +104,7 @@ function matricularProfesor (profesorDto){
 
 
 $(document).ready(function() {
-	var boton= document.getElementsByClassName('.borrar');
+	var boton= document.getElementsByClassName('borrar');
 	for (var i = 0 ; i < boton.length; i++) {
 		boton[i].addEventListener('click' , desmatricularProfesor , false ) ; 
 		}
